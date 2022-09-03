@@ -5,6 +5,8 @@ django-cors-middleware==1.5.0
 psycopg2==2.8.6
 python-swiftclient==3.12.0
 django-storage-swift==1.2.19
+boto3==1.24.66
+django-storages==1.13.1
 celery==5.1.2
 django-celery-beat==2.2.0
 mod-wsgi==4.8.0
@@ -21,3 +23,5 @@ pylint==2.9.1
 flake8==3.9.2
 isort==5.9.1
 https://github.com/msbrogli/rpudb/archive/master.zip
+boto3==1.24.66
+django-storages==1.13.1
