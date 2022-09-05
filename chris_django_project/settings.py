@@ -42,10 +42,14 @@ INSTALLED_APPS = [
     'mod_wsgi.server',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
+    'storages',
     'users',
     'uploadedfiles',
 
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 REST_FRAMEWORK = {
     # Use hyperlinked styles by default.
@@ -64,7 +69,47 @@ REST_FRAMEWORK = {
 
 
 }
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = '/static/'
+STATICFILES_DIR = (os.path.join(BASE_DIR, 'static'),)
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+# S3 start of configuration ----------------------------------------------------------------->
+
+
+AWS_ACCESS_KEY_ID = 'foobar'
+AWS_SECRET_ACCESS_KEY = 'foobar'
+AWS_STORAGE_BUCKET_NAME = 'chrisbucket'
+
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_VERIFY = False
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+    'ACL': 'public-read-write',
+}
+AWS_S3_HOST = "127.0.0.1"
+AWS_S3_ENDPOINT_URL = "http://127.0.0.1:4566"
+AWS_QUERYSTRING_AUTH = False
+
+AWS_STATIC_LOCATION = 'static'
+STATICFILES_STORAGE = 'uploadedfiles.s3_storage.StaticStorage'
+STATIC_URL = "http://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+
+
+AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+MEDIA_URL = "http://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
+DEFAULT_FILE_STORAGE = 'uploadedfiles.s3_storage.PublicMediaStorage'
+
+
+
+
+# END CONFIGURATION OF STORAGE ------------------------------------------------------------------------/>
 ROOT_URLCONF = 'chris_django_project.urls'
 
 TEMPLATES = [
