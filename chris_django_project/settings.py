@@ -95,7 +95,7 @@ AWS_STATIC_LOCATION = 'static'
 STATICFILES_STORAGE = 'uploadedfiles.s3_storage.StaticStorage'
 STATIC_URL = "http://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
 
-AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+AWS_PUBLIC_MEDIA_LOCATION = ''
 MEDIA_URL = "http://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_PUBLIC_MEDIA_LOCATION)
 DEFAULT_FILE_STORAGE = 'uploadedfiles.s3_storage.PublicMediaStorage'
 

@@ -21,6 +21,8 @@ class PublicMediaStorage(S3Boto3Storage):
     _boto_client = None
 
     def initialize(self):
+        if self.container_name is not None:
+            return
         self.container_name = settings.AWS_STORAGE_BUCKET_NAME
         self.conn_params = settings.AWS_S3_OBJECT_PARAMETERS
         # swift storage connection object
@@ -30,7 +32,7 @@ class PublicMediaStorage(S3Boto3Storage):
         """
         Connect to s3 storage and return the connection object.
         """
-
+        self.initialize();
         if self._boto_client is not None:
             return self._boto_client
         self._boto_session = boto3.session.Session()
@@ -71,21 +73,30 @@ class PublicMediaStorage(S3Boto3Storage):
         as a prefix.
         """
         b_full_listing = kwargs.get('full_listing', True)
-        if not path.endswith('/'):
-            path = path + '/'
+        #if not path.endswith('/'):
+         #   path = path + '/'
         l_ls = []  # listing of names to return
+        has_run = False
         if path:
             conn = self.get_connection()
             for i in range(5):
+                if has_run:
+                    continue
                 try:
                     paginator = conn.get_paginator('list_objects_v2')
-                    response = paginator.paginate(Bucket=self.container_name, PaginationConfig={"PageSize": 2})
-                    for page in response:
+                    page_iterator = paginator.paginate(Bucket=self.container_name, Prefix=path)
+
+                    for page in page_iterator:
                         print('Get s3 bucket page: ')
-                        files = page.get("Contents")
+                        if page['KeyCount'] == 0:
+                            continue
+                        files = page["Contents"]
+                        if files is None:
+                            print('No file contents.')
+                            continue
                         for file in files:  # This also contains the file size....
                             l_ls.append(file['Key'])
-                            print(file['Key'])
+                    has_run = True
                 except ClientException as e:
                     logger.error(str(e))
                     if i == 4:
