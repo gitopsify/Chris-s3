@@ -128,10 +128,9 @@ class PublicMediaStorage(S3Boto3Storage):
         conn = self.get_connection()
         for i in range(5):
             try:
-                conn.put_object(self.container_name,
-                                swift_path,
-                                contents=contents,
-                                **kwargs)
+                conn.put_object(Bucket=self.container_name,
+                                Key=swift_path,
+                                Body=contents)
             except ClientException as e:
                 logger.error(str(e))
                 if i == 4:

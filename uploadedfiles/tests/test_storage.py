@@ -55,5 +55,9 @@ class PublicMediaStorageTests(TestCase):
             print(result);
 
     def test_download_object(self):
-        results = self.s3_manager.download_obj('chris/uploads')
+        results = self.s3_manager.download_obj('chris/uploads/test_file1')
         print(results)
+
+    def test_upload_object(self):
+        self.s3_manager.upload_obj('chris/uploads/test_file1', "test file1 contents")
+
