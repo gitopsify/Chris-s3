@@ -147,8 +147,8 @@ class PublicMediaStorage(S3Boto3Storage):
         conn = self.get_connection()
         for i in range(5):
             try:
-                resp_headers, obj_contents = conn.get_object(self.container_name,
-                                                             obj_path, **kwargs)
+                response_object = conn.get_object(Bucket=self.container_name, Key=obj_path)
+                obj_contents = response_object['Body'].read()
             except ClientException as e:
                 logger.error(str(e))
                 if i == 4:
