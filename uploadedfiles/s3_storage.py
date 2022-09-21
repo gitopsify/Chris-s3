@@ -180,7 +180,7 @@ class PublicMediaStorage(S3Boto3Storage):
         conn = self.get_connection()
         for i in range(5):
             try:
-                conn.delete_object(self.container_name, obj_path)
+                conn.delete_object(Bucket=self.container_name, Key=obj_path)
             except ClientException as e:
                 logger.error(str(e))
                 if i == 4:

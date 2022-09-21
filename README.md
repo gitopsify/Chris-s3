@@ -86,8 +86,9 @@
 1. On a new terminal run the tests to upload and get a file:
 
     ```
-     python manage.py test uploadedfiles.tests.test_models.UploadedFileModelTests.test_uploaded_file_path
-     python manage.py test uploadedfiles.tests.test_models.UploadedFileModelTests.test_ls
-     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_download_object
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_upload_object;
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_ls;
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_download_object;
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_delete_object;
     ```
 

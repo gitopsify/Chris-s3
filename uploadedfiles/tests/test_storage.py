@@ -61,3 +61,6 @@ class PublicMediaStorageTests(TestCase):
     def test_upload_object(self):
         self.s3_manager.upload_obj('chris/uploads/test_file1', "test file1 contents")
 
+    def test_delete_object(self):
+        self.s3_manager.delete_obj('chris/uploads/test_file1')
+
