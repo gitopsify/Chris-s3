@@ -54,6 +54,19 @@ class PublicMediaStorageTests(TestCase):
         for result in results:
             print(result);
 
+    def test_path_exists(self):
+        results = self.s3_manager.path_exists('chris/uploads')
+        if results:
+            print('THE PATH "chris/uploads" exists')
+        else:
+            print('THE PATH "chris/uploads" does not exist')
+
+    def test_object_exists(self):
+        results = self.s3_manager.obj_exists('chris/uploads/test_file1')
+        if results:
+            print('THE OBJECT "chris/uploads/test_file1" exists')
+        else:
+            print('THE OBJECT "chris/uploads/test_file1" does not exist')
     def test_download_object(self):
         results = self.s3_manager.download_obj('chris/uploads/test_file1')
         print(results)

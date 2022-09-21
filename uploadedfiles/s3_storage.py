@@ -109,7 +109,7 @@ class PublicMediaStorage(S3Boto3Storage):
         Return True/False if passed path exists in swift storage.
         """
         conn = self.get_connection()
-        result = conn.list_objects(Bucket="Bucket", Prefix=path)
+        result = conn.list_objects(Bucket=self.container_name, Prefix=path)
         exists = False
         if 'Contents' in result:
             exists = True

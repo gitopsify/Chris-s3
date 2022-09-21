@@ -88,6 +88,8 @@
     ```
      python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_upload_object;
      python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_ls;
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_path_exists;
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_object_exists;
      python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_download_object;
      python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_delete_object;
     ```
