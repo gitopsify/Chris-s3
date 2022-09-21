@@ -79,7 +79,7 @@
 
 1. Start the django application by clicking on the run button in pycharm
 
-1. Open up the browser to "http://127.0.0.1:8000/admin"
+1. Open up the browser to **http://127.0.0.1:8000/admin**
 
 1. Login using the username **chris** and password **chris1234**
 
@@ -88,5 +88,6 @@
     ```
      python manage.py test uploadedfiles.tests.test_models.UploadedFileModelTests.test_uploaded_file_path
      python manage.py test uploadedfiles.tests.test_models.UploadedFileModelTests.test_ls
+     python manage.py test uploadedfiles.tests.test_storage.PublicMediaStorageTests.test_download_object
     ```
 
