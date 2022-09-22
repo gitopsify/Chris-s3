@@ -161,10 +161,13 @@ class PublicMediaStorage(S3Boto3Storage):
         Copy an object to a new destination in swift storage.
         """
         conn = self.get_connection()
-        dest = os.path.join('/' + self.container_name, dest_path.lstrip('/'))
+        #dest = os.path.join('/' + self.container_name, dest_path.lstrip('/'))
+        bucket = self.container_name
         for i in range(5):
             try:
-                conn.copy_object(self.container_name, obj_path, dest, **kwargs)
+                #conn.copy_object(self.container_name, obj_path, dest, **kwargs)
+                conn.copy_object(Bucket=bucket, CopySource=f'{bucket}/{obj_path}', Key=dest_path, **kwargs)
+
             except ClientException as e:
                 logger.error(str(e))
                 if i == 4:

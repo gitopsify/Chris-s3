@@ -77,3 +77,7 @@ class PublicMediaStorageTests(TestCase):
     def test_delete_object(self):
         self.s3_manager.delete_obj('chris/uploads/test_file1')
 
+    def test_copy_obj(self):
+        self.s3_manager.upload_obj('chris/uploads/test_file_orig', "original file")
+        self.s3_manager.copy_obj('chris/uploads/test_file_orig', 'chris/uploads/test_file_copy')
+        self.assertTrue(self.s3_manager.obj_exists('chris/uploads/test_file_copy'), 'copied file not found')
