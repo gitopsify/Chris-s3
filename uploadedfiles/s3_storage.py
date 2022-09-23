@@ -213,8 +213,9 @@ class PublicMediaStorage(S3Boto3Storage):
             '/storage/dir2/file_d2'
         """
         # upload all files down the <local_dir>
-        conn = self.get_connection()
-        s3 = conn.resource('s3')
+        #conn = self.get_connection()
+        #s3 = conn.resource('s3')
+        s3 = self.get_connection()
 
         for root, dirs, files in os.walk(local_dir):
             swift_base = root.replace(local_dir, swift_prefix, 1) if swift_prefix else root
@@ -222,7 +223,8 @@ class PublicMediaStorage(S3Boto3Storage):
                 swift_path = os.path.join(swift_base, filename)
                 if not self.obj_exists(swift_path):
                     local_file_path = os.path.join(root, filename)
-                    s3.meta.client.upload_file(Filename=swift_path, Bucket=self.container_name)
+                    #s3.meta.client.upload_file(Filename=swift_path, Bucket=self.container_name)
+                    s3.upload_file(Filename=local_file_path, Key=swift_path, Bucket=self.container_name)
 
 
 class StaticStorage(S3Boto3Storage):
