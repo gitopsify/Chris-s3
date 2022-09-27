@@ -77,3 +77,28 @@ class PublicMediaStorageTests(TestCase):
     def test_delete_object(self):
         self.s3_manager.delete_obj('chris/uploads/test_file1')
 
+    def test_copy_obj(self):
+        self.s3_manager.upload_obj('chris/uploads/test_file_orig', "original file")
+        self.s3_manager.copy_obj('chris/uploads/test_file_orig', 'chris/uploads/test_file_copy')
+        self.assertTrue(self.s3_manager.obj_exists('chris/uploads/test_file_copy'), 'copied file not found')
+        self.s3_manager.delete_obj('chris/uploads/test_file_orig')
+        self.s3_manager.delete_obj('chris/uploads/test_file_copy')
+
+    def test_upload_files(self):
+        import os
+
+        local_dir = os.path.join(os.getcwd(), 'uploadedfiles/tests/files_to_upload')
+        swift_prefix = 'chris/'
+
+        self.s3_manager.upload_files(local_dir)
+        self.s3_manager.upload_files(local_dir, swift_prefix=swift_prefix)
+
+        for root, dirs, files in os.walk(local_dir):
+            swift_base = root.replace(local_dir, swift_prefix, 1)
+            for fn in files:
+                swift_path = os.path.join(swift_base, fn)
+                root_path = os.path.join(root, fn)
+                self.assertTrue(self.s3_manager.obj_exists(root_path), f'{root_path} not found')
+                self.assertTrue(self.s3_manager.obj_exists(swift_path), f'{swift_path} not found')
+                self.s3_manager.delete_obj(root_path)
+                self.s3_manager.delete_obj(swift_path)
