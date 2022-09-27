@@ -87,9 +87,8 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
     'ACL': 'public-read-write',
 }
-AWS_S3_HOST = "192.168.39.134"
-AWS_S3_PORT = "31566"
-AWS_S3_ENDPOINT_URL = f"http://{AWS_S3_HOST}:{AWS_S3_PORT}"
+AWS_S3_HOST = "127.0.0.1"
+AWS_S3_ENDPOINT_URL = "http://127.0.0.1:4566"
 AWS_QUERYSTRING_AUTH = False
 
 AWS_STATIC_LOCATION = 'static'
