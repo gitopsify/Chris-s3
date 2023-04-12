@@ -20,6 +20,9 @@ media
 .idea/**/dictionaries
 .idea/**/shelf
 
+# remove vscode
+.vscode/
+
 # AWS User-specific
 .idea/**/aws.xml
 
