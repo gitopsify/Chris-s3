@@ -128,7 +128,7 @@ class PublicMediaStorage(S3Boto3Storage):
         conn = self.get_connection()
         for i in range(5):
             try:
-                conn.put_object(Bucket=self.container_name,
+                result = conn.put_object(Bucket=self.container_name,
                                 Key=swift_path,
                                 Body=contents)
             except ClientException as e:
@@ -138,6 +138,7 @@ class PublicMediaStorage(S3Boto3Storage):
                 time.sleep(0.4)
             else:
                 break
+        return result
 
     def download_obj(self, obj_path, **kwargs):
         """

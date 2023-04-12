@@ -47,7 +47,7 @@
 1. Create the postgres database
 
     ```
-    podman run --privileged -d -v ./postgres/data:/var/lib/pgsql/data:Z --name postgresql_database -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -p 5432:5432 redhat.registry.io/rhel8/postgresql-13
+    podman run --privileged -d -v ./postgres/data:/var/lib/pgsql/data:Z --name postgresql_database -e POSTGRESQL_USER=user -e POSTGRESQL_PASSWORD=pass -e POSTGRESQL_DATABASE=db -p 5432:5432 registry.redhat.io/rhel8/postgresql-13
     ```
 
 1. Create your model for uploadedfiles
