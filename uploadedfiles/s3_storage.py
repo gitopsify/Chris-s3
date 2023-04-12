@@ -38,7 +38,6 @@ class PublicMediaStorage(S3Boto3Storage):
         self._boto_session = boto3.session.Session()
         for i in range(5):  # 5 retries at most
             try:
-
                 self._boto_client = self._boto_session.client(
                     service_name='s3',
                     aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
@@ -87,12 +86,12 @@ class PublicMediaStorage(S3Boto3Storage):
                     page_iterator = paginator.paginate(Bucket=self.container_name, Prefix=path)
 
                     for page in page_iterator:
-                        print('Get s3 bucket page: ')
+                        #print('Get s3 bucket page: ')
                         if page['KeyCount'] == 0:
                             continue
                         files = page["Contents"]
                         if files is None:
-                            print('No file contents.')
+                            #print('No file contents.')
                             continue
                         for file in files:  # This also contains the file size....
                             l_ls.append(file['Key'])
@@ -162,10 +161,13 @@ class PublicMediaStorage(S3Boto3Storage):
         Copy an object to a new destination in swift storage.
         """
         conn = self.get_connection()
-        dest = os.path.join('/' + self.container_name, dest_path.lstrip('/'))
+        #dest = os.path.join('/' + self.container_name, dest_path.lstrip('/'))
+        bucket = self.container_name
         for i in range(5):
             try:
-                conn.copy_object(self.container_name, obj_path, dest, **kwargs)
+                #conn.copy_object(self.container_name, obj_path, dest, **kwargs)
+                conn.copy_object(Bucket=bucket, CopySource=f'{bucket}/{obj_path}', Key=dest_path, **kwargs)
+
             except ClientException as e:
                 logger.error(str(e))
                 if i == 4:
@@ -211,8 +213,9 @@ class PublicMediaStorage(S3Boto3Storage):
             '/storage/dir2/file_d2'
         """
         # upload all files down the <local_dir>
-        conn = self.get_connection()
-        s3 = conn.resource('s3')
+        #conn = self.get_connection()
+        #s3 = conn.resource('s3')
+        s3 = self.get_connection()
 
         for root, dirs, files in os.walk(local_dir):
             swift_base = root.replace(local_dir, swift_prefix, 1) if swift_prefix else root
@@ -220,7 +223,8 @@ class PublicMediaStorage(S3Boto3Storage):
                 swift_path = os.path.join(swift_base, filename)
                 if not self.obj_exists(swift_path):
                     local_file_path = os.path.join(root, filename)
-                    s3.meta.client.upload_file(Filename=swift_path, Bucket=self.container_name)
+                    #s3.meta.client.upload_file(Filename=swift_path, Bucket=self.container_name)
+                    s3.upload_file(Filename=local_file_path, Key=swift_path, Bucket=self.container_name)
 
 
 class StaticStorage(S3Boto3Storage):
